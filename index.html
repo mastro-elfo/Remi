@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		
+		<link rel="shortcut icon" href="favicon.ico">
+		
+		<link rel="stylesheet" href="css/resources/buttons.css"/>
+		<link rel="stylesheet" href="css/resources/drawer.css"/>
+		<!--<link rel="stylesheet" href="css/resources/edit_mode.css"/>-->
+		<link rel="stylesheet" href="css/resources/gaia-icons-embedded.css"/>
+		<link rel="stylesheet" href="css/resources/headers.css"/>
+		<link rel="stylesheet" href="css/resources/icons.css"/>
+		<link rel="stylesheet" href="css/resources/input_areas.css"/>
+		<link rel="stylesheet" href="css/resources/layout.css"/>
+		<link rel="stylesheet" href="css/resources/progress_activity.css"/>
+		<!--<link rel="stylesheet" href="css/resources/status.css"/>-->
+		<link rel="stylesheet" href="css/resources/switches.css"/>
+		<link rel="stylesheet" href="css/resources/toolbars.css"/>
+		
+		<link rel="stylesheet" href="css/remi.css"/>
+		<link rel="stylesheet" href="css/styles.css"/>
+		
+		<script type="text/javascript" src="js/dollar/dollar.nc.js"></script>
+		<script type="text/javascript" src="js/Page.js"></script>
+		<script type="text/javascript" src="js/L10n.js"></script>
+		
+		<script type="text/javascript" src="js/ListOptions.js"></script>
+		<script type="text/javascript" src="js/Object.js"></script>
+		<script type="text/javascript" src="js/ObjectList.js"></script>
+		<script type="text/javascript" src="js/GlobalOptions.js"></script>
+		<script type="text/javascript" src="js/Remi.js"></script>
+		
+		<script type="text/javascript" src="js/main.js"></script>
+		
+		<script>
+			//alert((new Date).getTime())
+		</script>
+	</head>
+	<body role="application">
+		
+		<!--
+			Sidebar
+		-->
+		<section data-type="sidebar">
+			<header>
+				<h1>
+					<form>
+						<input id="index-drawer-input" data-l10n="index-drawer-input" type="text" placeholder="Write a list name"/>
+						<button type="reset">Reset</button>
+					</form>
+				</h1>
+			</header>
+			<nav class="gaia-list">
+				<ul id="index-drawer-lists">
+					<!--<li><a href="#" data-goto=""></a></li>-->
+				</ul>
+			</nav>
+			<div role="toolbar">
+				<button data-icon="info" data-goto="info">Info</button>
+				<button data-icon="settings" data-goto="settings">Settings</button>
+				<button data-icon="email-move" data-goto="settings-master">Move</button>
+				<button data-icon="share">Share</button>
+			</div>
+		</section>
+		
+		<!--
+			Index: main screen
+		-->
+		<section id="index" role="region" class="vbox fit scroll current">
+			<header>
+				<a href="#"><span class="icon icon-menu">hide sidebar</span></a>
+				<a href="#index"><span class="icon icon-menu">show sidebar</span></a>
+				
+				<h1>
+					<form>
+						<input id="index-item-input" data-l10n="index-item-input" type="text" placeholder="Remember the milk"/>
+						<button type="reset">Reset</button>
+					</form>
+				</h1>
+			</header>
+			<section class="gaia-list fit scroll sticky">
+				<article>
+					<header id="index-listname"></header>
+					<ul id="index-itemslist-notchecked"></ul>
+					<ul id="index-itemslist-checked"></ul>
+				</article>
+			</section>
+		</section>
+		
+		<!--
+			Settings
+		-->
+		<section id="settings" role="region" class="vbox fit scroll">
+			<header>
+				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
+				<h1 data-l10n="settings-headertitle">Settings</h1>
+			</header>
+			<section class="gaia-list fit scroll sticky">
+				<article>
+				</article>
+			</section>
+		</section>
+		
+		<!--
+			Settings master
+		-->
+		<section id="settings-master" role="region" class="vbox fit scroll">
+			<header>
+				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
+				<menu type="toolbar">
+					<button id="settings-master-done" data-goback="">done</button>
+				</menu>
+				<h1 data-l10n="settings-master-headertitle">Settings lists</h1>
+			</header>
+			<section class="gaia-list fit scroll sticky">
+				<article>
+					<ul id="settings-master-elements"></ul>
+				</article>
+			</section>
+		</section>
+		
+		<!--
+			Info
+		-->
+		<section id="info" role="region" class="vbox fit scroll">
+			<header>
+				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
+				<h1 data-l10n="info-headertitle">Info</h1>
+			</header>
+			<section class="gaia-list fit scroll sticky">
+				<article>
+					<ul>
+						<li><span data-l10n="info-version">Version</span>: 5.0</li>
+						<li><span data-l10n="info-authors">Authors</span>: Francesco Michienzi, Andrea Michienzi</li>
+					</ul>
+				</article>
+			</section>
+		</section>
+	</body>
+</html>
