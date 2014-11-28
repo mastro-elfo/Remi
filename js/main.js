@@ -41,14 +41,16 @@ $.Dom.addEvent(window, 'load', function(){
 		}
 	});
 	
+	// Open master settings panel
 	$.Each($.Dom.select('[data-goto="settings-master"]'), function(item){
 		$.Dom.addEvent(item, 'click', function(){
 			remi._reloadMasterSettings();
 		});
 	});
 	
+	// Done edit master settings
 	$.Dom.addEvent('settings-master-done', 'click', function(event){
-		remi.editListNames();
+		remi.editListNames().deleteLists();
 		remi.showList(0);
 	});
 });
