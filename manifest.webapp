@@ -2,16 +2,16 @@
 	"name": "Remi",
 	"version": "5.0",
 	"description": "A list manager to not forget the milk anymore. With Remi you can manage multiple list, check item as 'done' or delete it very fast and easily. The interface is pretty and you can choose from a list of color scheme.",
-	"launch_path": "index.html",
+	"launch_path": "/Remi/index.html",
 	"icons": {
-		"32": "img/bottle-32.png",
-		"60": "img/bottle-60.png",
-		"64": "img/bottle-64.png",
-		"90": "img/bottle-90.png",
-		"120": "img/bottle-120.png",
-		"128": "img/bottle-128.png",
-		"256": "img/bottle-256.png",
-		"512": "img/bottle-512.png"
+		"32": "/Remi/img/bottle-32.png",
+		"60": "/Remi/img/bottle-60.png",
+		"64": "/Remi/img/bottle-64.png",
+		"90": "/Remi/img/bottle-90.png",
+		"120": "/Remi/img/bottle-120.png",
+		"128": "/Remi/img/bottle-128.png",
+		"256": "/Remi/img/bottle-256.png",
+		"512": "/Remi/img/bottle-512.png"
 	},
 	"developer": {
 		"name": "Francesco Michienzi",
