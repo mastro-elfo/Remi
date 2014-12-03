@@ -60,7 +60,7 @@
 				<button data-icon="info" data-goto="info">Info</button>
 				<button data-icon="edit-image" data-goto="settings">Settings</button>
 				<button data-icon="dialpad" data-goto="settings-master">Move</button>
-				<button data-icon="settings">Share</button>
+				<button data-icon="settings" data-goto="settings-detail">Share</button>
 			</div>
 		</section>
 		
@@ -116,6 +116,24 @@
 			<section class="gaia-list fit scroll sticky">
 				<article>
 					<ul id="settings-master-elements"></ul>
+				</article>
+			</section>
+		</section>
+		
+		<!--
+			Settings detail
+		-->
+		<section id="settings-detail" role="region" class="vbox fit scroll">
+			<header>
+				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
+				<menu type="toolbar">
+					<button id="settings-detail-done" data-goback="">done</button>
+				</menu>
+				<h1><span data-l10n="settings-detail-headertitle">Settings list</span> <span id="settings-detail-listname"></span></h1>
+			</header>
+			<section class="gaia-list fit scroll sticky">
+				<article>
+					<ul id="settings-detail-elements"></ul>
 				</article>
 			</section>
 		</section>
