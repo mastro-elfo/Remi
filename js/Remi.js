@@ -46,6 +46,29 @@ Remi.prototype._loadLists = function () {
 }
 
 /**
+ * Load the items array
+ * param index: index of the list within localStorage
+ * return: array of items
+ */
+Remi.prototype._loadItems=function(index){
+	var lists=this._loadLists();
+	var list=lists[index];
+	return $.Storage.get('list-'+list.identifier);
+}
+
+/**
+ * Stores items in localStorage
+ * param index: intex of the list to update
+ * param items: new list items
+ * return: null
+ */
+Remi.prototype._storeItems = function(index, items) {
+	var lists=this._loadLists();
+	var list=lists[index];
+	$.Storage.set('list-'+list.identifier, items);
+}
+
+/**
  * Reload the drawer content with list names
  */
 Remi.prototype._reloadDrawer = function () {
@@ -71,19 +94,21 @@ Remi.prototype._reloadMasterSettings=function(){
 	var lists=this._loadLists();
 	$.Dom.id('settings-master-elements').innerHTML = '';
 	$.Each(lists, function(list, i){
-		var li=$.Dom.element('li', {});
+		var li=$.Dom.element('li');
 		var list_new_name=$.Dom.element('input', {
 			'type':'text',
 			'value':list.name,
 			'data-index':i,
-			'class': 'fit six'
+			'class': 'fit six',
+			'data-class':'list-name'
 		});
 		var label = $.Dom.element('label', {
 			'class': 'pack-checkbox danger fit'
 		});
 		var delete_list=$.Dom.element('input', {
 			'type':'checkbox',
-			'data-index':i
+			'data-index':i,
+			'data-class':'list-delete'
 		});
 		var span = $.Dom.element('span');
 		$.Dom.inject(list_new_name, li);
@@ -92,6 +117,40 @@ Remi.prototype._reloadMasterSettings=function(){
 		$.Dom.inject(span, label);
 		$.Dom.inject(li, $.Dom.id('settings-master-elements'));
 		
+	});
+}
+
+Remi.prototype._reloadDetailSettings=function(){
+	var lists=this._loadLists();
+	var list=lists[0];
+	var items=this._loadItems(0);
+	$.Dom.id('settings-detail-elements').innerHTML='';
+	$.Dom.id('settings-detail-listname').innerHTML=list.name;
+	$.Each(items, function(item, key){
+		var li=$.Dom.element('li', {
+			'data-index': key
+		});
+		var item_name=$.Dom.element('input', {
+			'type':'text',
+			'value':item.name,
+			'data-index': key,
+			'class': 'fit six',
+			'data-class':'item-name'
+		});
+		var label = $.Dom.element('label', {
+			'class': 'pack-checkbox danger fit'
+		});
+		var delete_item=$.Dom.element('input', {
+			'type':'checkbox',
+			'data-index':key,
+			'data-class':'item-delete'
+		});
+		var span = $.Dom.element('span');
+		$.Dom.inject(item_name, li);
+		$.Dom.inject(label, li)
+		$.Dom.inject(delete_item, label);
+		$.Dom.inject(span, label);
+		$.Dom.inject(li, $.Dom.id('settings-detail-elements'));
 	});
 }
 
@@ -137,7 +196,7 @@ Remi.prototype.createList = function (new_list_name) {
 	}
 	else{
 		// Load the unique identifier from localStorage
-		var uid=$.Storage.getns('static-info', 'unique-id');
+		var uid=parseInt($.Storage.getns('static-info', 'unique-id'));
 		$.Storage.setns('static-info', 'unique-id', uid+1);
 		
 		// Add a new list in localStorage, including the empty item list
@@ -171,6 +230,8 @@ Remi.prototype.showList = function (index){
 	//$.Storage.set('lists', []);
 	//return;
 	
+	var self = this;
+	
 	// Clear dom
 	$.Dom.id('index-listname').innerHTML = '';
 	$.Dom.id('index-itemslist-notchecked').innerHTML = '';
@@ -181,18 +242,62 @@ Remi.prototype.showList = function (index){
 	var list = lists[index];
 	
 	if (lists.length && list) {
-		var items = $.Storage.get('list-'+list.identifier);
+		// TODO
+		var items = this._loadItems(index);
 		
+		if (list.options['alphabetical-order']) {
+			items.sort(function(a, b) {
+				return a.localeCompare(b);
+			});
+		}
 		if (list.options['move-to-bottom']) {
 			// Add items to dom with move-to-bottom option
-			$.Each(items, function(item){
-			//TODO: aggiungere bottone spunta
-			//TODO: aggiungere evento click
+			$.Each(items, function(item, key){
+				// TODO: usare una funzione per fare un piacere all'ingegnere...
 				if (item.checked) {
-					$.Dom.inject($.Dom.element('li', {}, item.name), $.Dom.id('index-itemslist-checked'));
+					var li = $.Dom.element('li');
+					var spanItemName = $.Dom.element('span', {}, item.name);
+					var label = $.Dom.element('label', {
+						'class': 'pack-checkbox'
+					});
+					var input = $.Dom.element('input', {
+						'type': 'checkbox',
+						'data-index': key,
+						'checked': 'checked'
+					}, '', {
+						'click': function() {
+							self.switchItemState(this.getAttribute('data-index'));
+						}
+					});
+					var span = $.Dom.element('span');
+					
+					$.Dom.inject(li, $.Dom.id('index-itemslist-checked'));
+					$.Dom.inject(spanItemName, li);
+					$.Dom.inject(label, li);
+					$.Dom.inject(input, label);
+					$.Dom.inject(span, label);
 				}
 				else{
-					$.Dom.inject($.Dom.element('li', {}, item.name), $.Dom.id('index-itemslist-notchecked'));
+					var li = $.Dom.element('li');
+					var spanItemName = $.Dom.element('span', {}, item.name);
+					var label = $.Dom.element('label', {
+						'class': 'pack-checkbox'
+					});
+					var input = $.Dom.element('input', {
+						'type': 'checkbox',
+						'data-index': key
+					}, '', {
+						'click': function() {
+							self.switchItemState(this.getAttribute('data-index'));
+						}
+					});
+					var span = $.Dom.element('span');
+					
+					$.Dom.inject(li, $.Dom.id('index-itemslist-notchecked'));
+					$.Dom.inject(spanItemName, li);
+					$.Dom.inject(label, li);
+					$.Dom.inject(input, label);
+					$.Dom.inject(span, label);
 				}
 			});
 		}
@@ -200,10 +305,51 @@ Remi.prototype.showList = function (index){
 			// Add items to dom as in localStorage order
 			$.Each(items, function(item){
 				if (item.checked) {
-					$.Dom.inject($.Dom.element('li', {'class':'checked'}, item.name), $.Dom.id('index-itemslist-notchecked'));
+					var li = $.Dom.element('li', {
+						'class': 'checked'
+					});
+					var spanItemName = $.Dom.element('span', {}, item.name);
+					var label = $.Dom.element('label', {
+						'class': 'pack-checkbox'
+					});
+					var input = $.Dom.element('input', {
+						'type': 'checkbox',
+						'data-index': key,
+						'checked': 'checked'
+					}, '', {
+						'click': function() {
+							self.switchItemState(this.getAttribute('data-index'));
+						}
+					});
+					var span = $.Dom.element('span');
+					
+					$.Dom.inject(li, $.Dom.id('index-itemslist-notchecked'));
+					$.Dom.inject(spanItemName, li);
+					$.Dom.inject(label, li);
+					$.Dom.inject(input, label);
+					$.Dom.inject(span, label);
 				}
 				else{
-					$.Dom.inject($.Dom.element('li', {}, item.name), $.Dom.id('index-itemslist-notchecked'));
+					var li = $.Dom.element('li');
+					var spanItemName = $.Dom.element('span', {}, item.name);
+					var label = $.Dom.element('label', {
+						'class': 'pack-checkbox'
+					});
+					var input = $.Dom.element('input', {
+						'type': 'checkbox',
+						'data-index': key
+					}, '', {
+						'click': function() {
+							self.switchItemState(this.getAttribute('data-index'));
+						}
+					});
+					var span = $.Dom.element('span');
+					
+					$.Dom.inject(li, $.Dom.id('index-itemslist-notchecked'));
+					$.Dom.inject(spanItemName, li);
+					$.Dom.inject(label, li);
+					$.Dom.inject(input, label);
+					$.Dom.inject(span, label);
 				}
 			});
 		}
@@ -265,7 +411,7 @@ Remi.prototype.editListNames=function(){
 	var lists=this._loadLists();
 	
 	$.Each(lists, function(item, key){
-		item.name=$.Dom.select('#settings-master-elements input[data-index="'+key+'"]')[0].value;
+		item.name=$.Dom.select('#settings-master-elements input[data-class="list-name"][data-index="'+key+'"]')[0].value;
 	});
 	
 	$.Storage.set('lists', lists);
@@ -283,7 +429,7 @@ Remi.prototype.deleteLists=function(){
 	var newlist=[];
 	
 	$.Each(lists, function(item, key){
-		if ($.Dom.select('#settings-master-elements input[type="checkbox"][data-index="'+key+'"]')[0].checked) {
+		if ($.Dom.select('#settings-master-elements input[data-class="list-delete"][data-index="'+key+'"]')[0].checked) {
 			$.Storage.set('list-'+item.identifier, []);
 		}
 		else{
@@ -293,5 +439,99 @@ Remi.prototype.deleteLists=function(){
 	
 	$.Storage.set('lists', newlist);
 	
+	return this;
+}
+
+/**
+ * Add a new element to the current list. If the item alredy exists in this list it will be set unchecked without creating a new item
+ * param new_item_name: name of the item to add to the current list
+ * return: null
+ */
+Remi.prototype.addElement=function(new_item_name){
+	
+	var items=this._loadItems(0);
+	var found=false;
+	$.Each(items, function(item, key){
+		if (item.name==new_item_name) {
+			found=true;
+			item.checked=false;
+		}
+		return !found;
+	});
+	if (!found) {
+		items.splice(0, 0, {
+			'name': new_item_name,
+			'checked': false,
+			'position': 0
+		});
+	}
+	
+	this._storeItems(0, items);
+	
+	this.showList(0);
+}
+
+/**
+ * Invert the state of the item
+ * param index: index within item list of the item to switch
+ * return: null
+ */
+Remi.prototype.switchItemState = function(index) {
+	var items=this._loadItems(0);
+	var item=items[index];
+	item.checked=!item.checked;
+	this._storeItems(0, items);
+	this.showList(0);
+}
+
+/**
+ * Delete checked items from the current list
+ * return: this for method chaining
+ */
+Remi.prototype.deleteItems=function(){
+	var items=this._loadItems(0);
+	var newItems=[];
+	
+	$.Each(items, function(item, key){
+		if (!$.Dom.select('#settings-detail-elements input[data-class="item-delete"][data-index="'+key+'"]')[0].checked) {
+			newItems.push(item);
+		}
+	});
+	this._storeItems(0, newItems);
+	return this;
+}
+
+/**
+ * Modify item names, new names are taken from Input
+ * return: this for method chaining
+ */
+Remi.prototype.editItemNames=function(){
+	var items=this._loadItems(0);
+	
+	$.Each(items, function(item, key){
+		item.name=$.Dom.select('#settings-detail-elements input[data-class="item-name"][data-index="'+key+'"]')[0].value;
+	});
+	
+	this._storeItems(0, items);
+	
+	return this;
+}
+
+/**
+ * Updates positions for each items
+ * return: this for method chaining
+ */
+Remi.prototype.editItemPositions=function(){
+	var items=this._loadItems(0);
+	var newItems=[];
+	
+	$.Each($.Dom.select('#settings-detail-elements li'), function(item, key){		
+		newItems.push({
+			'name': items[item.getAttribute('data-index')].name,
+			'checked': items[item.getAttribute('data-index')].checked
+		});
+	});
+	
+	this._storeItems(0, newItems);
 	return this;
 }

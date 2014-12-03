@@ -37,7 +37,7 @@ $.Dom.addEvent(window, 'load', function(){
 	// Keypress event for new item input
 	$.Dom.addEvent('index-item-input', 'keypress', function(event){
 		if (event.key == 'Enter') {
-			
+			remi.addElement(event.target.value);
 		}
 	});
 	
@@ -48,9 +48,22 @@ $.Dom.addEvent(window, 'load', function(){
 		});
 	});
 	
+	// Open detail settings panel
+	$.Each($.Dom.select('[data-goto="settings-detail"]'), function(item){
+		$.Dom.addEvent(item, 'click', function(){
+			remi._reloadDetailSettings();
+		});
+	});
+	
 	// Done edit master settings
 	$.Dom.addEvent('settings-master-done', 'click', function(event){
 		remi.editListNames().deleteLists();
+		remi.showList(0);
+	});
+	
+	// Done edit detail settings
+	$.Dom.addEvent('settings-detail-done', 'click', function(event){
+		remi.editItemPositions().editItemNames().deleteItems();
 		remi.showList(0);
 	});
 });
