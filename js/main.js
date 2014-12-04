@@ -8,7 +8,7 @@ $.Dom.addEvent(window, 'load', function(){
 	$.L10n.translateAll();
 	
 	// Create new Remi instance
-	var remi=new Remi();
+	var remi = new Remi();
 	
 	// Show the last selected list
 	remi.showList(0);
@@ -56,14 +56,18 @@ $.Dom.addEvent(window, 'load', function(){
 	});
 	
 	// Done edit master settings
-	$.Dom.addEvent('settings-master-done', 'click', function(event){
+	$.Dom.addEvent('settings-master-done', 'click', function(){
 		remi.editListNames().deleteLists();
 		remi.showList(0);
 	});
 	
 	// Done edit detail settings
-	$.Dom.addEvent('settings-detail-done', 'click', function(event){
+	$.Dom.addEvent('settings-detail-done', 'click', function(){
 		remi.editItemPositions().editItemNames().deleteItems();
 		remi.showList(0);
+	});
+	
+	$.Dom.addEvent('settings-done', 'click', function(){
+		remi.editGlobalOptions($.Dom.id('settings-fontfamily').value, $.Dom.id('settings-fontsize').value, $.Dom.id('settings-pagestyle').value);
 	});
 });

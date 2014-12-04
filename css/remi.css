@@ -1,3 +1,7 @@
+
+/* Page styles */
+@import url(styles.css);
+
 /* Setting panels: full-size <section role="region"> blocks */
 section[role="region"] {
 position: absolute;
@@ -72,4 +76,13 @@ section > header input[type="text"],
 section > header textarea {
 	margin: 0.5rem 0 0;
 	border-radius: 2rem;
+}
+
+/**
+ * Main page list
+ */
+#index-itemslist-notchecked li.checked > span,
+#index-itemslist-checked li > span {
+	text-decoration: line-through;
+	opacity: 0.5;
 }

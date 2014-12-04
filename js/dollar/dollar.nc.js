@@ -433,7 +433,7 @@ $['Dom'] = {
 			element = $.Dom.id(element);
 		}
 		
-		var _foo = function(key, value){
+		var _foo = function(value, key){
 			key = key.replace(/(\-)([a-z])/, function(a){return a[1].toUpperCase();});
 			element.style[key] = value;
 		}
