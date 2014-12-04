@@ -94,10 +94,45 @@
 		<section id="settings" role="region" class="vbox fit scroll">
 			<header>
 				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
+				<menu type="toolbar">
+					<button id="settings-done" data-goback="">done</button>
+				</menu>
 				<h1 data-l10n="settings-headertitle">Settings</h1>
 			</header>
 			<section class="gaia-list fit scroll sticky">
 				<article>
+					<ul>
+						<li>
+							<select id="settings-fontfamily">
+								<option value="" data-l10n="settings-fontfamily-default">Default</option>
+								<option value="serif">Serif</option>
+								<option value="sans-serif">Sans serif</option>
+								<option value="monospace">Monospace</option>
+							</select>
+						</li>
+						<li>
+							<select id="settings-fontsize">
+								<option value="" data-l10n="settings-fontfamily-default">Default</option>
+								<option value="8">8px</option>
+								<option value="12">12px</option>
+								<option value="16">16px</option>
+								<option value="20">20px</option>
+								<option value="24">24px</option>
+								<option value="28">28px</option>
+								<option value="32">32px</option>
+							</select>
+						</li>
+						<li>
+							<select id="settings-pagestyle">
+								<option value="" data-l10n="settings-fontfamily-default">Default</option>
+								<option value="old-paper">Old paper</option>
+								<option value="math-class">Math class</option>
+								<option value="surfing-with-the-alien">Surfing with the alien</option>
+								<option value="nature">Nature</option>
+								<option value="rainbow">Rainbow</option>
+							</select>
+						</li>
+					</ul>
 				</article>
 			</section>
 		</section>
