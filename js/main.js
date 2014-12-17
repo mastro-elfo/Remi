@@ -1,6 +1,5 @@
 $.Dom.addEvent(window, 'load', function(){
 	// Set browser language
-	// TODO: get from localStorage
 	$.L10n.setLanguage($.L10n.sniff().substring(0, 2));
 	// $.L10n.setLanguage('de');
 	
@@ -31,6 +30,9 @@ $.Dom.addEvent(window, 'load', function(){
 	$.Dom.addEvent('index-drawer-input', 'keypress', function(event){
 		if (event.key == 'Enter') {
 			remi.createList(event.target.value);
+			event.target.value='';
+			$.Dom.id('index-item-input').focus();
+			$.Dom.id('index-item-input').value = '';
 		}
 	});
 	
@@ -38,6 +40,7 @@ $.Dom.addEvent(window, 'load', function(){
 	$.Dom.addEvent('index-item-input', 'keypress', function(event){
 		if (event.key == 'Enter') {
 			remi.addElement(event.target.value);
+			event.target.value='';
 		}
 	});
 	
@@ -57,7 +60,7 @@ $.Dom.addEvent(window, 'load', function(){
 	
 	// Done edit master settings
 	$.Dom.addEvent('settings-master-done', 'click', function(){
-		remi.editListNames().deleteLists();
+		remi.editListNames().deleteLists().editListOptions();
 		remi.showList(0);
 	});
 	
@@ -69,5 +72,15 @@ $.Dom.addEvent(window, 'load', function(){
 	
 	$.Dom.addEvent('settings-done', 'click', function(){
 		remi.editGlobalOptions($.Dom.id('settings-fontfamily').value, $.Dom.id('settings-fontsize').value, $.Dom.id('settings-pagestyle').value);
+	});
+	
+	$.Dom.addEvent('settings-detail-clean', 'click', function(){
+		remi.cleanList(0);
+	});
+	
+	$.Dom.addEvent('index-opensidebar', 'click', function(){
+		setTimeout(function(){
+			$.Dom.id('index-drawer-input').focus();
+		}, 250);
 	});
 });

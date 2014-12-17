@@ -70,7 +70,7 @@
 		<section id="index" role="region" class="vbox fit scroll current">
 			<header>
 				<a href="#"><span class="icon icon-menu">hide sidebar</span></a>
-				<a href="#index"><span class="icon icon-menu">show sidebar</span></a>
+				<a href="#index" id="index-opensidebar"><span class="icon icon-menu">show sidebar</span></a>
 				
 				<h1>
 					<form>
@@ -168,6 +168,13 @@
 			</header>
 			<section class="gaia-list fit scroll sticky">
 				<article>
+					<ul>
+						<li>
+							<button id="settings-detail-clean" data-l10n="settings-detail-clean" class="danger">
+								Clean List
+							</button>
+						</li>
+					</ul>
 					<ul id="settings-detail-elements"></ul>
 				</article>
 			</section>

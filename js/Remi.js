@@ -1,7 +1,7 @@
-// TODO: manage the list of lists names in the drawer (show, update, ecc...)
-// TODO: test create/load list
 // TODO: trim in list names
-
+// TODO: Backup import/export
+// TODO: stile icone mtb e abo
+// TODO: todoitems / total items ...
 
 /**
   * class Remi
@@ -52,7 +52,7 @@ Remi.prototype._loadLists = function () {
  */
 Remi.prototype._loadItems = function(index){
 	var lists = this._loadLists();
-	var list = lists[index];
+	var list = lists[index] || [];
 	return $.Storage.get('list-' +list.identifier);
 }
 
@@ -95,6 +95,46 @@ Remi.prototype._reloadMasterSettings = function(){
 	$.Dom.id('settings-master-elements').innerHTML = '';
 	$.Each(lists, function(list, i){
 		var li = $.Dom.element('li');
+		
+
+		var label_abo = $.Dom.element('label', {
+//		TODO: quali classi deve avere la label
+		});
+		
+		var abo_checkbox = $.Dom.element('input', {
+			'type': 'checkbox',
+			'data-index': i,
+			'data-class': 'list-abo'
+		});
+		
+		if(list.options['alphabetical-order']){
+			abo_checkbox.checked='checked';
+		}
+		
+		var icon_abo = $.Dom.element('img', {
+			'src': 'img/alphabetical_order.svg',
+			'alt': 'abo'
+		});
+		
+		var label_mtb = $.Dom.element('label', {
+//		TODO: quali classi deve avere la label
+		});
+		
+		var mtb_checkbox = $.Dom.element('input', {
+			'type': 'checkbox',
+			'data-index': i,
+			'data-class': 'list-mtb'
+		});
+		
+		if(list.options['move-to-bottom']){
+			mtb_checkbox.checked='checked';
+		}
+		
+		var icon_mtb = $.Dom.element('img', {
+			'src': 'img/move_to_bottom.svg',
+			'alt': 'mtb'
+		});
+		
 		var list_new_name=$.Dom.element('input', {
 			'type': 'text',
 			'value': list.name,
@@ -111,6 +151,12 @@ Remi.prototype._reloadMasterSettings = function(){
 			'data-class': 'list-delete'
 		});
 		var span = $.Dom.element('span');
+		$.Dom.inject(abo_checkbox, label_abo);
+		$.Dom.inject(mtb_checkbox, label_mtb);
+		$.Dom.inject(icon_abo, label_abo);
+		$.Dom.inject(icon_mtb, label_mtb);
+		$.Dom.inject(label_abo, li);
+		$.Dom.inject(label_mtb, li);
 		$.Dom.inject(list_new_name, li);
 		$.Dom.inject(label, li)
 		$.Dom.inject(delete_list, label);
@@ -159,7 +205,7 @@ Remi.prototype._reloadDetailSettings = function(){
  */
 Remi.prototype._createMainScreenItem = function (key, item, list) {
 	var self = this;
-	
+
 	// list item
 	var li = $.Dom.element('li');
 	
@@ -179,7 +225,14 @@ Remi.prototype._createMainScreenItem = function (key, item, list) {
 		'data-index': key
 	}, '', {
 		'click': function() {
-			self.switchItemState(this.getAttribute('data-index'));
+			var items = self._loadItems(0);
+			$.Each(items, function(currItem, currKey){
+				if (currItem.name==item.name) {
+					self.switchItemState(currKey);
+					return false;
+				}
+				return true;
+			});
 		}
 	});
 	if (item.checked) {
@@ -299,7 +352,7 @@ Remi.prototype.showList = function (index){
 		
 		if (list.options['alphabetical-order']) {
 			items.sort(function(a, b) {
-				return a.localeCompare(b);
+				return a.name.localeCompare(b.name);
 			});
 		}
 		
@@ -518,4 +571,28 @@ Remi.prototype.editGlobalOptions = function (fontFamily, fontSize, pageStyle) {
 	// Apply page style
 	// $.Dom.addClass(document.body, pageStyle);
 	document.body.setAttribute('data-style', pageStyle);
+}
+
+/**
+ *
+ */
+Remi.prototype.editListOptions = function(){
+	var lists=this._loadLists();
+	
+	$.Each(lists, function(item, key){
+		lists[key].options['alphabetical-order']=$.Dom.select('#settings-master-elements input[data-class="list-abo"][data-index="'+key+'"]')[0].checked;
+		lists[key].options['move-to-bottom']=$.Dom.select('#settings-master-elements input[data-class="list-mtb"][data-index="'+key+'"]')[0].checked;
+	});
+	$.Storage.set('lists', lists);
+	return this;
+}
+
+Remi.prototype.cleanList=function(index){
+	var items=this._loadItems(index);
+	$.Each(items, function(item, key){
+		if (item.checked) {
+			$.Dom.select('#settings-detail-elements input[data-class="item-delete"][data-index="'+key+'"]')[0].checked='checked';
+		}
+	});
+
 }
