@@ -1,3 +1,6 @@
+// TODO: What to do when there are no lists?
+// TODO: What to do the first time app is lunched?
+
 $.Dom.addEvent(window, 'load', function(){
 	// Set browser language
 	$.L10n.setLanguage($.L10n.sniff().substring(0, 2));
@@ -25,6 +28,12 @@ $.Dom.addEvent(window, 'load', function(){
 			Page.back();
 		});
 	});
+	
+	// Add autocapitalize attribute to inputs
+	// Here and not in HTML for compatibility
+	$.Dom.id('index-drawer-input').setAttribute('autocapitalize', 'on');
+	$.Dom.id('index-item-input').setAttribute('autocapitalize', 'on');
+	// TODO: test this feature
 	
 	// Keypress event for new list input
 	$.Dom.addEvent('index-drawer-input', 'keypress', function(event){
@@ -70,17 +79,22 @@ $.Dom.addEvent(window, 'load', function(){
 		remi.showList(0);
 	});
 	
+	// Apply settings
 	$.Dom.addEvent('settings-done', 'click', function(){
 		remi.editGlobalOptions($.Dom.id('settings-fontfamily').value, $.Dom.id('settings-fontsize').value, $.Dom.id('settings-pagestyle').value);
 	});
 	
+	// Apply clean list
 	$.Dom.addEvent('settings-detail-clean', 'click', function(){
 		remi.cleanList(0);
 	});
 	
+	// When opening sidebar, only focus on input if there is no list, because one can open the sidebar not to add lists
 	$.Dom.addEvent('index-opensidebar', 'click', function(){
-		setTimeout(function(){
-			$.Dom.id('index-drawer-input').focus();
-		}, 250);
+		// TODO: check if there is no list and only in that case focus on the input field
+		
+		// setTimeout(function(){
+			// $.Dom.id('index-drawer-input').focus();
+		// }, 250);
 	});
 });

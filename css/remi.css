@@ -1,7 +1,4 @@
 
-/* Page styles */
-@import url(styles.css);
-
 /* Setting panels: full-size <section role="region"> blocks */
 section[role="region"] {
 position: absolute;
@@ -85,4 +82,14 @@ section > header textarea {
 #index-itemslist-checked li > span {
 	text-decoration: line-through;
 	opacity: 0.5;
+}
+
+/* Master settings */
+#settings-master-elements label input[type="checkbox"] + img {
+	opacity: 0.2;
+  border-radius: 0;
+  transition: opacity 0.25s ease;
+}
+#settings-master-elements label input[type="checkbox"]:checked + img {
+	opacity: 1;
 }
