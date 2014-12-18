@@ -98,7 +98,7 @@ Remi.prototype._reloadMasterSettings = function(){
 		
 
 		var label_abo = $.Dom.element('label', {
-//		TODO: quali classi deve avere la label
+			'class': 'pack-checkbox fit'
 		});
 		
 		var abo_checkbox = $.Dom.element('input', {
@@ -117,7 +117,7 @@ Remi.prototype._reloadMasterSettings = function(){
 		});
 		
 		var label_mtb = $.Dom.element('label', {
-//		TODO: quali classi deve avere la label
+			'class': 'pack-checkbox fit'
 		});
 		
 		var mtb_checkbox = $.Dom.element('input', {
@@ -135,16 +135,18 @@ Remi.prototype._reloadMasterSettings = function(){
 			'alt': 'mtb'
 		});
 		
-		var list_new_name=$.Dom.element('input', {
+		var list_new_name = $.Dom.element('input', {
 			'type': 'text',
 			'value': list.name,
 			'data-index': i,
 			'class': 'fit six',
 			'data-class': 'list-name'
 		});
+		
 		var label = $.Dom.element('label', {
 			'class': 'pack-checkbox danger fit'
 		});
+		
 		var delete_list = $.Dom.element('input', {
 			'type': 'checkbox',
 			'data-index': i,

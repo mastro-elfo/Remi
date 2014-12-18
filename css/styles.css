@@ -4,7 +4,7 @@
  */
 
 [role="application"][data-style="old-paper"] [role="region"] {
-  background-color: #f0e68c;
+  background: #f0e68c url(styles/grain.png);
 }
 [role="application"][data-style="old-paper"] [role="region"] .gaia-list header {
   background-color: transparent;
