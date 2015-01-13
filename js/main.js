@@ -1,5 +1,6 @@
 // TODO: What to do when there are no lists?
 // TODO: What to do the first time app is lunched?
+// TODO: Correct appcache
 
 $.Dom.addEvent(window, 'load', function(){
 	// Set browser language
@@ -97,4 +98,14 @@ $.Dom.addEvent(window, 'load', function(){
 			// $.Dom.id('index-drawer-input').focus();
 		// }, 250);
 	});
+	
+	$.Dom.addEvent('settings-backup-import', 'click', function(){
+		remi.importBackup();
+		remi.showList(0);
+	});
+
+	$.Dom.addEvent('settings-backup-export', 'click', function(){
+		remi.exportBackup();
+	});
+	
 });

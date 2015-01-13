@@ -598,3 +598,53 @@ Remi.prototype.cleanList=function(index){
 	});
 
 }
+
+Remi.prototype.exportBackup = function(){
+	var sdcard = navigator.getDeviceStorage("sdcard");
+	var file = new Blob([$.Json.encode(localStorage)], {type: "text/plain"});
+	var report = $.Dom.id('settings-backup-report');
+	var request = sdcard.delete('remi.backup');
+	request.onsuccess = function(){
+		var request = sdcard.addNamed(file, 'remi.backup');
+		request.onsuccess = function(){
+			report.innerHTML='Success!';
+		}
+		request.onerror = function(){
+			report.innerHTML='Write failed!';
+		}
+	}
+	request.onerror = function(){
+		report.innerHTML='Delete failed!';
+	}
+	
+	
+}
+
+Remi.prototype.importBackup = function(){
+	var sdcard = navigator.getDeviceStorage("sdcard");
+	var report = $.Dom.id('settings-backup-report');
+	var request = sdcard.get('remi.backup');
+	request.onsuccess = function(){
+		var file=this.result;
+		var content=file.slice();
+		var reader = new FileReader();
+		var txt = reader.readAsText(file);
+		
+		reader.addEventListener("loadend", function() {
+			(function(data){
+				var o='';
+				for (var i in data) {
+					o+= i+': '+data[i]+"\n";
+				}
+				alert(o);
+			})(reader.result);
+		 });
+		 reader.readAsArrayBuffer(blob);
+		
+		localStorage=$.Json.decode(content);
+		report.innerHTML='Import success!!';
+	}
+	request.onerror = function(){
+		report.innerHTML='Import fail!';
+	}
+}
