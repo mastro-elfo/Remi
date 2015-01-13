@@ -475,7 +475,7 @@ $['Each'] = function(list, callback) {
 			}
 		}
 	}
-	else if (typeof list.iterateNext != 'undefined') {
+	else if (list && (typeof list.iterateNext != 'undefined')) {
 		var node = list.iterateNext();
 		var i=0;
 		flags.last = null;
