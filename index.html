@@ -10,7 +10,7 @@
 		<!--<link rel="stylesheet" href="css/resources/edit_mode.css"/>-->
 		<link rel="stylesheet" href="css/resources/gaia-icons-embedded.css"/>
 		<link rel="stylesheet" href="css/resources/headers.css"/>
-		<link rel="stylesheet" href="css/resources/icons.css"/>
+		<!--<link rel="stylesheet" href="css/resources/icons.css"/>-->
 		<link rel="stylesheet" href="css/resources/input_areas.css"/>
 		<link rel="stylesheet" href="css/resources/layout.css"/>
 		<link rel="stylesheet" href="css/resources/progress_activity.css"/>
@@ -42,7 +42,7 @@
 		<!--
 			Sidebar
 		-->
-		<section data-type="sidebar">
+		<section data-type="sidebar" class="scroll">
 			<header>
 				<h1>
 					<form>
@@ -59,8 +59,8 @@
 			<div role="toolbar">
 				<button data-icon="info" data-goto="info">Info</button>
 				<button data-icon="edit-image" data-goto="settings">Settings</button>
-				<button data-icon="dialpad" data-goto="settings-master">Move</button>
-				<button data-icon="settings" data-goto="settings-detail">Share</button>
+				<button data-icon="dialpad" data-goto="settings-master">Master</button>
+				<!--<button data-icon="settings" data-goto="settings-detail">Detail</button>-->
 			</div>
 		</section>
 		
@@ -72,6 +72,10 @@
 				<a href="#"><span class="icon icon-menu">hide sidebar</span></a>
 				<a href="#index" id="index-opensidebar"><span class="icon icon-menu">show sidebar</span></a>
 				
+				<menu type="toolbar">
+					<button data-goto="settings-detail"><span class="icon" data-icon="settings">Detail</span></button>
+				</menu>
+				
 				<h1>
 					<form>
 						<input id="index-item-input" data-l10n="index-item-input" type="text" placeholder="Remember the milk"/>
@@ -79,12 +83,13 @@
 					</form>
 				</h1>
 			</header>
-			<section class="gaia-list fit scroll sticky">
+			<section class="gaia-list sticky scroll sticky">
 				<article>
 					<header id="index-listname"></header>
 					<ul id="index-itemslist-notchecked"></ul>
 					<ul id="index-itemslist-checked"></ul>
 				</article>
+				<article id="index-nolists-message" data-l10n="index-nolists-message" class="hidden"></article>
 			</section>
 		</section>
 		
@@ -101,6 +106,21 @@
 			</header>
 			<section class="gaia-list fit scroll sticky">
 				<article>
+					<ul>
+						<li>
+							<button id="settings-backup-export" data-l10n="settings-backup-export">
+								Export backup
+							</button>
+						</li>
+						<li>
+							<button id="settings-backup-import" data-l10n="settings-backup-import">
+								Import backup
+							</button>
+						</li>
+						<li id="settings-backup-report">
+							
+						</li>
+					</ul>
 					<ul>
 						<li>
 							<select id="settings-fontfamily">
@@ -144,7 +164,7 @@
 			<header>
 				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
 				<menu type="toolbar">
-					<button id="settings-master-done" data-goback="">done</button>
+					<button id="settings-master-done" data-goback="" data-l10n="settings-master-done">done</button>
 				</menu>
 				<h1 data-l10n="settings-master-headertitle">Settings lists</h1>
 			</header>

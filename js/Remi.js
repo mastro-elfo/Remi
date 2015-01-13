@@ -52,6 +52,8 @@ Remi.prototype._loadLists = function () {
  */
 Remi.prototype._loadItems = function(index){
 	var lists = this._loadLists();
+	// TODO: qui c'e' qualcosa che non va
+	// se list <= [], non ha attributo list.identifier
 	var list = lists[index] || [];
 	return $.Storage.get('list-' +list.identifier);
 }
@@ -79,7 +81,15 @@ Remi.prototype._reloadDrawer = function () {
 		if(!list) {
 			return;
 		}
-		$.Dom.inject($.Dom.element('li', {}, list.name, {
+		var totalItems = 0;
+		var uncheckedItems = 0;
+		var listItems = self._loadItems(i);
+		$.Each(listItems, function(item, i){
+			totalItems ++;
+			if(!item.checked) uncheckedItems++;
+		});
+		var entry = list.name.replace('<', '&lt;').replace('>', '&gt;') + '&nbsp;<em>(' + uncheckedItems + '/' + totalItems + ')</em>';
+		$.Dom.inject($.Dom.element('li', {}, entry, {
 			'click': function (event){
 				self.loadList(i);
 			}
@@ -98,7 +108,8 @@ Remi.prototype._reloadMasterSettings = function(){
 		
 
 		var label_abo = $.Dom.element('label', {
-			'class': 'pack-checkbox fit'
+			'class': 'pack-checkbox fit',
+			'data-l10n': 'settings-master-abo'
 		});
 		
 		var abo_checkbox = $.Dom.element('input', {
@@ -117,7 +128,8 @@ Remi.prototype._reloadMasterSettings = function(){
 		});
 		
 		var label_mtb = $.Dom.element('label', {
-			'class': 'pack-checkbox fit'
+			'class': 'pack-checkbox fit',
+			'data-l10n': 'settings-master-mtb'
 		});
 		
 		var mtb_checkbox = $.Dom.element('input', {
@@ -172,8 +184,20 @@ Remi.prototype._reloadDetailSettings = function(){
 	var lists = this._loadLists();
 	var list = lists[0];
 	var items = this._loadItems(0);
+	
 	$.Dom.id('settings-detail-elements').innerHTML = '';
-	$.Dom.id('settings-detail-listname').innerHTML = list.name;
+	
+	if (list) {
+		$.Dom.id('settings-detail-listname').innerHTML = list.name.replace('<', '&lt;').replace('>', '&gt;');
+	}
+	else {
+		$.Dom.id('settings-detail-listname').innerHTML = '';
+	}
+	
+	if (!items) {
+		return;
+	}
+	
 	$.Each(items, function(item, key){
 		var li = $.Dom.element('li', {
 			'data-index': key
@@ -297,7 +321,7 @@ Remi.prototype.createList = function (new_list_name) {
 	}
 	
 	if (found !== null) {
-		if (confirm('wanna selfdestruct?')) {//TODO: change confirm text
+		if (confirm($.L10n.translate('wanna selfdestruct?').replace('<list>', new_list_name))) {//TODO: change confirm text
 			// Sets to null the items of the list
 			$.Storage.set('list-'+lists[found].identifier, []);
 		}
@@ -322,8 +346,8 @@ Remi.prototype.createList = function (new_list_name) {
 		$.Storage.set('list-' +uid, []);
 		
 	}
-	//alert('here found:'+(found)+' length:'+(lists.length)+' l-1:'+(lists.length-1));
-	this.showList(found || lists.length -1);
+	// alert('here:'+(found || lists.length -1));
+	this.showList(found!==null? found : lists.length -1);
 }
 
 /**
@@ -371,9 +395,16 @@ Remi.prototype.showList = function (index){
 		}
 		
 		// Print list name
-		$.Dom.id('index-listname').innerHTML = list.name;
+		$.Dom.id('index-listname').innerHTML = list.name.replace('<', '&lt;').replace('>', '&gt;');
 		// Close drawer
 		location.href = '#';
+	}
+	
+	if (lists.length) {
+		$.Dom.addClass('index-nolists-message', 'hidden');
+	}
+	else {
+		$.Dom.removeClass('index-nolists-message', 'hidden');
 	}
 	
 	// Update lists position
@@ -465,6 +496,10 @@ Remi.prototype.deleteLists = function(){
  * return: null
  */
 Remi.prototype.addElement = function(new_item_name){
+	var lists = this._loadLists();
+	if (!lists || !lists.length) {
+		return;
+	}
 	
 	var items = this._loadItems(0);
 	var found = false;
@@ -597,4 +632,54 @@ Remi.prototype.cleanList=function(index){
 		}
 	});
 
+}
+
+Remi.prototype.exportBackup = function(){
+	var sdcard = navigator.getDeviceStorage("sdcard");
+	var file = new Blob([$.Json.encode(localStorage)], {type: "text/plain"});
+	var report = $.Dom.id('settings-backup-report');
+	var request = sdcard.delete('remi.backup');
+	request.onsuccess = function(){
+		var request = sdcard.addNamed(file, 'remi.backup');
+		request.onsuccess = function(){
+			report.innerHTML='Success!';
+		}
+		request.onerror = function(){
+			report.innerHTML='Write failed!';
+		}
+	}
+	request.onerror = function(){
+		report.innerHTML='Delete failed!';
+	}
+	
+	
+}
+
+Remi.prototype.importBackup = function(){
+	var sdcard = navigator.getDeviceStorage("sdcard");
+	var report = $.Dom.id('settings-backup-report');
+	var request = sdcard.get('remi.backup');
+	request.onsuccess = function(){
+		var file=this.result;
+		var content=file.slice();
+		var reader = new FileReader();
+		var txt = reader.readAsText(file);
+		
+		reader.addEventListener("loadend", function() {
+			(function(data){
+				var o='';
+				for (var i in data) {
+					o+= i+': '+data[i]+"\n";
+				}
+				alert(o);
+			})(reader.result);
+		 });
+		 reader.readAsArrayBuffer(blob);
+		
+		localStorage=$.Json.decode(content);
+		report.innerHTML='Import success!!';
+	}
+	request.onerror = function(){
+		report.innerHTML='Import fail!';
+	}
 }

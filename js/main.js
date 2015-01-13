@@ -1,10 +1,11 @@
 // TODO: What to do when there are no lists?
 // TODO: What to do the first time app is lunched?
+// TODO: Correct appcache
 
 $.Dom.addEvent(window, 'load', function(){
 	// Set browser language
 	$.L10n.setLanguage($.L10n.sniff().substring(0, 2));
-	// $.L10n.setLanguage('de');
+	$.L10n.setLanguage('en');
 	
 	// Translate all
 	$.L10n.translateAll();
@@ -97,4 +98,14 @@ $.Dom.addEvent(window, 'load', function(){
 			// $.Dom.id('index-drawer-input').focus();
 		// }, 250);
 	});
+	
+	$.Dom.addEvent('settings-backup-import', 'click', function(){
+		remi.importBackup();
+		remi.showList(0);
+	});
+
+	$.Dom.addEvent('settings-backup-export', 'click', function(){
+		remi.exportBackup();
+	});
+	
 });
