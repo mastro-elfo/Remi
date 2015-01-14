@@ -1,2 +1,85 @@
 CACHE MANIFEST
 # 5.0.20
+
+CACHE:
+
+#images
+favicon.ico
+img/alphabetical_order.svg
+img/move_to_bottom.svg
+
+#internal HTML documents 
+index.html
+
+#style sheets 
+css/remi.css 
+css/resources/buttons.css 
+css/resources/drawer.css 
+css/resources/gaia-icons-embedded.css 
+css/resources/headers.css 
+css/resources/input_areas.css 
+css/resources/layout.css 
+css/resources/progress_activity.css 
+css/resources/switches.css 
+css/resources/toolbars.css 
+css/styles.css
+
+#style sheet images "buttons/images/next.png"
+"css/resources/drawer/images/ui/header.png"
+"css/resources/drawer/images/ui/pattern.png"
+"css/resources/drawer/images/ui/pattern_subheader.png"
+"css/resources/drawer/images/ui/separator.png"
+"css/resources/drawer/images/ui/shadow.png"
+"css/resources/drawer/images/ui/shadow_header.png"
+"css/resources/drawer/images/ui/shadow_rtl.png"
+"css/resources/headers/images/icons/add.png"
+"css/resources/headers/images/icons/back.png"
+"css/resources/headers/images/icons/close.png"
+"css/resources/headers/images/icons/compose.png"
+"css/resources/headers/images/icons/down.png"
+"css/resources/headers/images/icons/edit.png"
+"css/resources/headers/images/icons/menu.png"
+"css/resources/headers/images/icons/options.png"
+"css/resources/headers/images/icons/organic/add.png"
+"css/resources/headers/images/icons/organic/back.png"
+"css/resources/headers/images/icons/organic/close.png"
+"css/resources/headers/images/icons/organic/edit.png"
+"css/resources/headers/images/icons/send.png"
+"css/resources/headers/images/icons/up.png"
+"css/resources/headers/images/icons/user.png"
+"css/resources/input_areas/images/clear.png"
+"css/resources/input_areas/images/clear_dark.png"
+"css/resources/input_areas/images/dialog.svg"
+"css/resources/input_areas/images/dialog_active.svg"
+"css/resources/input_areas/images/dialog_disabled.svg"
+"css/resources/input_areas/images/dialog_disabled_rtl.svg"
+"css/resources/input_areas/images/dialog_rtl.svg"
+"css/resources/input_areas/images/search.svg"
+"css/resources/input_areas/images/search_dark.svg"
+"css/resources/progress_activity/images/ui/activity.png"
+"css/resources/progress_activity/images/ui/default.png"
+"css/resources/progress_activity/images/ui/light.png"
+"css/resources/drawer/images/ui/pattern.png"
+"css/styles/grain.png"
+"css/styles/square_paper.png"
+"css/resources/switches/images/check/danger.png"
+"css/resources/switches/images/check/default.png"
+"css/resources/switches/images/radio/danger.png"
+"css/resources/switches/images/radio/default.png"
+"css/resources/switches/images/switch/background.png"
+"css/resources/switches/images/switch/background_off.png"
+"css/resources/switches/images/switch/background_rtl.png"
+
+
+#javascript files
+js/dollar/dollar.nc.js 
+js/Page.js 
+js/L10n.js 
+js/ListOptions.js 
+js/Object.js 
+js/ObjectList.js 
+js/GlobalOptions.js 
+js/Remi.js 
+js/main.js
+
+NETWORK: *
