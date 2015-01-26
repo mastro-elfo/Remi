@@ -32,17 +32,13 @@
 		<script type="text/javascript" src="js/Remi.js"></script>
 		
 		<script type="text/javascript" src="js/main.js"></script>
-		
-		<script>
-			//alert((new Date).getTime())
-		</script>
 	</head>
 	<body role="application">
 		
 		<!--
 			Sidebar
 		-->
-		<section data-type="sidebar" class="scroll">
+		<section data-type="sidebar" class="vbox scroll">
 			<header>
 				<h1>
 					<form>
@@ -51,7 +47,7 @@
 					</form>
 				</h1>
 			</header>
-			<nav class="gaia-list">
+			<nav class="gaia-list scroll">
 				<ul id="index-drawer-lists">
 					<!--<li><a href="#" data-goto=""></a></li>-->
 				</ul>
@@ -106,6 +102,7 @@
 			</header>
 			<section class="gaia-list fit scroll sticky">
 				<article>
+					<header data-l10n="settings-backupmanagement">Backup management</header>
 					<ul>
 						<li>
 							<button id="settings-backup-export" data-l10n="settings-backup-export">
@@ -121,6 +118,9 @@
 							
 						</li>
 					</ul>
+				</article>
+				<article>
+					<header data-l10n="settings-fontfamily">Font family</header>
 					<ul>
 						<li>
 							<select id="settings-fontfamily">
@@ -130,6 +130,11 @@
 								<option value="monospace">Monospace</option>
 							</select>
 						</li>
+					</ul>
+				</article>
+				<article>
+					<header data-l10n="settings-fontsize">Font size</header>
+					<ul>
 						<li>
 							<select id="settings-fontsize">
 								<option value="" data-l10n="settings-fontfamily-default">Default</option>
@@ -142,6 +147,11 @@
 								<option value="32">32px</option>
 							</select>
 						</li>
+					</ul>
+				</article>
+				<article>
+					<header data-l10n="settings-pagestyle">Page style</header>
+					<ul>
 						<li>
 							<select id="settings-pagestyle">
 								<option value="" data-l10n="settings-fontfamily-default">Default</option>
@@ -211,7 +221,7 @@
 			<section class="gaia-list fit scroll sticky">
 				<article>
 					<ul>
-						<li><span data-l10n="info-version">Version</span>: 5.0</li>
+						<li><span data-l10n="info-version">Version</span>: <span id="info-versionvalue"></span></li>
 						<li><span data-l10n="info-authors">Authors</span>: Francesco Michienzi, Andrea Michienzi</li>
 					</ul>
 				</article>

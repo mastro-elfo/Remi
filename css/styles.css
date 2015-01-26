@@ -3,7 +3,8 @@
  *
  */
 
-[role="application"][data-style="old-paper"] [role="region"] {
+[role="application"][data-style="old-paper"] [role="region"],
+[role="application"][data-style="old-paper"] [role="region"] article > header:first-child {
   background: #f0e68c url(styles/grain.png);
 }
 [role="application"][data-style="old-paper"] [role="region"] .gaia-list header {
@@ -18,7 +19,8 @@
  *
  */
 
-[role="application"][data-style="math-class"] [role="region"] {
+[role="application"][data-style="math-class"] [role="region"],
+[role="application"][data-style="math-class"] [role="region"] article > header:first-child {
   background: url(styles/square_paper.png);
 }
 [role="application"][data-style="math-class"] [role="region"] .gaia-list header {
@@ -37,6 +39,9 @@
 }
 [role="application"][data-style="math-class"] [role="region"] {
   font-family: monospace;
+}
+[role="application"][data-style="math-class"] [role="region"] li button {
+	background-color: #d8d8d8;
 }
 /* END Math class */
 
@@ -113,3 +118,8 @@
   background-color: purple;
 }
 /* END Rainbow */
+
+
+
+
+
