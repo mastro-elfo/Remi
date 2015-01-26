@@ -108,4 +108,12 @@ $.Dom.addEvent(window, 'load', function(){
 		remi.exportBackup();
 	});
 	
+	// Get info from .webapp file
+	$.Ajax.get('./manifest.webapp', {}, {
+		'onSuccess': function(t){
+			// alert(t)
+			var data = $.Json.decode(t);
+			$.Dom.id('info-versionvalue').innerHTML = data.version;
+		}
+	});
 });

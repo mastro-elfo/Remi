@@ -237,8 +237,18 @@ Remi.prototype._createMainScreenItem = function (key, item, list) {
 	
 	// span for item name
 	var spanItemName = $.Dom.element('span', {
-		'class': 'fit six'
-	}, item.name);
+		'class': 'item-name fit six'
+	}, item.name, {
+		'click': function() {
+			var close = $.Dom.hasClass(this, 'details');
+			$.Each($.Dom.select('.details'), function(item){
+				$.Dom.removeClass(item, 'details');
+			});
+			if (!close) {
+				$.Dom.addClass(this, 'details');
+			}
+		}
+	});
 	
 	// label for checkbox
 	var label = $.Dom.element('label', {
