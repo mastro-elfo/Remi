@@ -2,7 +2,8 @@
 <html manifest="manifest.appcache">
 	<head>
 		<meta charset="UTF-8"/>
-		
+		<meta name=viewport content="width=device-width, initial-scale=1">
+			
 		<link rel="shortcut icon" href="favicon.ico">
 		
 		<link rel="stylesheet" href="css/resources/buttons.css"/>
@@ -55,7 +56,7 @@
 			<div role="toolbar">
 				<button data-icon="info" data-goto="info">Info</button>
 				<button data-icon="edit-image" data-goto="settings">Settings</button>
-				<button data-icon="dialpad" data-goto="settings-master">Master</button>
+				<!--<button data-icon="dialpad" data-goto="settings-master">Master</button>-->
 				<!--<button data-icon="settings" data-goto="settings-detail">Detail</button>-->
 			</div>
 		</section>
@@ -170,7 +171,7 @@
 		<!--
 			Settings master
 		-->
-		<section id="settings-master" role="region" class="vbox fit scroll">
+		<!--<section id="settings-master" role="region" class="vbox fit scroll">
 			<header>
 				<a href="#" data-goback=""><span class="icon icon-back">go back</span></a>
 				<menu type="toolbar">
@@ -183,7 +184,7 @@
 					<ul id="settings-master-elements"></ul>
 				</article>
 			</section>
-		</section>
+		</section>-->
 		
 		<!--
 			Settings detail
@@ -197,14 +198,44 @@
 				<h1><span data-l10n="settings-detail-headertitle">Settings list</span> <span id="settings-detail-listname"></span></h1>
 			</header>
 			<section class="gaia-list fit scroll sticky">
+				<input type="hidden" id="settings-detail-listkey"/>
 				<article>
+					<header data-l10n="settings-detail-listsettings">List settings</header>
 					<ul>
+						<li>
+							<input id="settings-detail-listnameinput" class="fit" type="text"/>
+						</li>
+						<li>
+							<label class="pack-checkbox">
+								<span data-l10n="settings-detail-alphabeticalorder">Alphabetical order</span>
+								<input type="checkbox" id="settings-detail-alphabeticalorder"/><span></span>
+							</label>
+						</li>
+						<li>
+							<label class="pack-checkbox fit">
+								<span class="fit six">Move to bottom</span>
+								<input type="checkbox" id="settings-detail-movetobottom"/><span></span>
+							</label>
+						</li>
+					</ul>
+				</article>
+				<article>
+					<header>Actions</header>
+					<ul>
+						<li>
+							<button id="settings-detail-deletelist" class="danger">
+								Delete list
+							</button>
+						</li>
 						<li>
 							<button id="settings-detail-clean" data-l10n="settings-detail-clean" class="danger">
 								Clean List
 							</button>
 						</li>
 					</ul>
+				</article>
+				<article>
+					<header>Items settings</header>
 					<ul id="settings-detail-elements"></ul>
 				</article>
 			</section>
@@ -221,7 +252,7 @@
 			<section class="gaia-list fit scroll sticky">
 				<article>
 					<ul>
-						<li><span data-l10n="info-version">Version</span>: <span id="info-versionvalue"></span></li>
+						<li><span data-l10n="info-version">Version</span>:&nbsp;<span id="info-versionvalue"></span></li>
 						<li><span data-l10n="info-authors">Authors</span>: Francesco Michienzi, Andrea Michienzi</li>
 					</ul>
 				</article>
