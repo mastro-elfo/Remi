@@ -101,7 +101,7 @@ Remi.prototype._reloadDrawer = function () {
  * Reload master elements list
  */
 Remi.prototype._reloadMasterSettings = function(){
-	var lists = this._loadLists();
+	/*var lists = this._loadLists();
 	$.Dom.id('settings-master-elements').innerHTML = '';
 	$.Each(lists, function(list, i){
 		var li = $.Dom.element('li');
@@ -177,7 +177,7 @@ Remi.prototype._reloadMasterSettings = function(){
 		$.Dom.inject(span, label);
 		$.Dom.inject(li, $.Dom.id('settings-master-elements'));
 		
-	});
+	});*/
 }
 
 Remi.prototype._reloadDetailSettings = function(){
@@ -189,9 +189,20 @@ Remi.prototype._reloadDetailSettings = function(){
 	
 	if (list) {
 		$.Dom.id('settings-detail-listname').innerHTML = list.name.replace('<', '&lt;').replace('>', '&gt;');
+		$.Dom.id('settings-detail-listnameinput').value = list.name;
+		$.Dom.id('settings-detail-listkey').value = list.name;
+		if(list.options['alphabetical-order']){
+			$.Dom.id('settings-detail-alphabeticalorder').checked = 'checked';
+		}
+		if(list.options['move-to-bottom']){
+			$.Dom.id('settings-detail-movetobottom').checked = 'checked';
+		}
 	}
 	else {
 		$.Dom.id('settings-detail-listname').innerHTML = '';
+		$.Dom.id('settings-detail-listname').value = '';
+		$.Dom.id('settings-detail-alphabeticalorder').removeAttribute('checked');
+		$.Dom.id('settings-detail-movetobottom').removeAttribute('checked');;
 	}
 	
 	if (!items) {
@@ -305,6 +316,10 @@ Remi.prototype._createMainScreenItem = function (key, item, list) {
  * return: null
  */
 Remi.prototype.createList = function (new_list_name) {
+	if (new_list_name=='') {
+		alert('oh no!')
+		return false;
+	}
 	var lists = this._loadLists();
 	//alert('start create list '+lists+' lists.lenght= '+lists.length);
 	var found = null; // After the following Each is non-null if a list with the given name exists; null otherwise
@@ -358,6 +373,7 @@ Remi.prototype.createList = function (new_list_name) {
 	}
 	// alert('here:'+(found || lists.length -1));
 	this.showList(found!==null? found : lists.length -1);
+	return true;
 }
 
 /**
@@ -481,11 +497,21 @@ Remi.prototype.editListNames = function(){
  * Delete marked lists
  * return: this
  */
-Remi.prototype.deleteLists = function(){
+Remi.prototype.deleteList = function(list_name){
 	
 	var lists = this._loadLists();
 	var newlist = [];
 	
+	$.Each(lists, function(list, key){
+		if (list.name == list_name) {
+			$.Storage.set('list-'+list.identifier, []);
+		}
+		else {
+			newlist.push(list);
+		}
+	});
+	
+	/*
 	$.Each(lists, function(item, key){
 		if ($.Dom.select('#settings-master-elements input[data-class="list-delete"][data-index="'+key+'"]')[0].checked) {
 			$.Storage.set('list-'+item.identifier, []);
@@ -493,7 +519,7 @@ Remi.prototype.deleteLists = function(){
 		else{
 			newlist.push(item);
 		}
-	});
+	});*/
 	
 	$.Storage.set('lists', newlist);
 	

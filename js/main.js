@@ -38,7 +38,7 @@ $.Dom.addEvent(window, 'load', function(){
 	
 	// Keypress event for new list input
 	$.Dom.addEvent('index-drawer-input', 'keypress', function(event){
-		if (event.key == 'Enter') {
+		if (event.keyCode == 13) {
 			remi.createList(event.target.value);
 			event.target.value='';
 			$.Dom.id('index-item-input').focus();
@@ -48,18 +48,18 @@ $.Dom.addEvent(window, 'load', function(){
 	
 	// Keypress event for new item input
 	$.Dom.addEvent('index-item-input', 'keypress', function(event){
-		if (event.key == 'Enter') {
+		if (event.keyCode == 13) {
 			remi.addElement(event.target.value);
 			event.target.value='';
 		}
 	});
 	
 	// Open master settings panel
-	$.Each($.Dom.select('[data-goto="settings-master"]'), function(item){
+	/*$.Each($.Dom.select('[data-goto="settings-master"]'), function(item){
 		$.Dom.addEvent(item, 'click', function(){
 			remi._reloadMasterSettings();
 		});
-	});
+	});*/
 	
 	// Open detail settings panel
 	$.Each($.Dom.select('[data-goto="settings-detail"]'), function(item){
@@ -69,10 +69,10 @@ $.Dom.addEvent(window, 'load', function(){
 	});
 	
 	// Done edit master settings
-	$.Dom.addEvent('settings-master-done', 'click', function(){
+	/*$.Dom.addEvent('settings-master-done', 'click', function(){
 		remi.editListNames().deleteLists().editListOptions();
 		remi.showList(0);
-	});
+	});*/
 	
 	// Done edit detail settings
 	$.Dom.addEvent('settings-detail-done', 'click', function(){
@@ -92,11 +92,12 @@ $.Dom.addEvent(window, 'load', function(){
 	
 	// When opening sidebar, only focus on input if there is no list, because one can open the sidebar not to add lists
 	$.Dom.addEvent('index-opensidebar', 'click', function(){
-		// TODO: check if there is no list and only in that case focus on the input field
-		
-		// setTimeout(function(){
-			// $.Dom.id('index-drawer-input').focus();
-		// }, 250);
+		var lists = remi._loadLists();
+		if (!lists || !lists.length) {
+			 setTimeout(function(){
+				 $.Dom.id('index-drawer-input').focus();
+			 }, 250);
+		}
 	});
 	
 	$.Dom.addEvent('settings-backup-import', 'click', function(){
@@ -115,5 +116,11 @@ $.Dom.addEvent(window, 'load', function(){
 			var data = $.Json.decode(t);
 			$.Dom.id('info-versionvalue').innerHTML = data.version;
 		}
+	});
+	
+	
+	$.Dom.addEvent('settings-detail-deletelist', 'click', function(){
+		remi.deleteList($.Dom.id('settings-detail-listkey').value);
+		remi.showList(0);
 	});
 });
